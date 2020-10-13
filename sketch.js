@@ -1,9 +1,3 @@
-//TODO: save button = download text file
-//save strings to populate text file
-//update instructions
-//maybe add time monitering??
-
-
 let one = [];
 let two = [];
 let three = [];
@@ -39,6 +33,8 @@ let move = 0; //which pole to move to
 let data = "";
 let time = 0;
 let tries = 1;
+
+//---------------------------- Vars above, setup and draw below
 
 function setup() {
   createCanvas(800, 700);
@@ -134,16 +130,53 @@ function draw() {
     strokeWeight(0);
     rect(0, 0, 800, 700);
     fill('black');
-    text("Click ready when ready", 250, 250);
-    text("Instructions", 325, 200);
+    
+    let t = 45;
+    let u = t+160;
+    textSize(24);
+    text("Right now all the disks are on pole 1.", 200, t);
+    text("Your goal is to get all the disks over to pole 3.", 160, t+50);
+    text("You can only move the top disk on the pole.", 170, u+100);
+    text("The top disk of any pole can be moved to the top disk of any other pole", 25, u+150);
+    text("or to an empty pole.", 270, u+175);
+    text("EXCEPT: You can never put a larger disk on a smaller disk.", 90, u+225);
+    text("To move a disk, click on it.", 250, u+275);
+    text("Then you will be able to move it where you want it to go.", 100, u+325);
+    text("Then click again.", 300, u+375);
+    
+    strokeWeight(1);
+    line(150, 240, 150, 130);
+    line(400, 240, 400, 130);
+    line(650, 240, 650, 130);
+
+    //horizontal lines
+    line(100, 240, 200, 240);
+    line(350, 240, 450, 240);
+    line(600, 240, 700, 240);
+    
+    fill('red');
+    rect(110, 220, 80, 20, 5);
+    fill('orange');
+    rect(115, 198, 70, 20, 5);
+    fill('yellow');
+    rect(120, 176, 60, 20, 5);
+    
+    fill("black");
+    text("1", 145, 270);
+    text("2", 395, 270);
+    text("3", 645, 270);
+    
     fill('green');
-    rect(325, 315, 150, 50);
+    rect(325, 625, 150, 50);
     fill('white');
     textSize(30);
-    text("Ready", 355, 350);
+    text("Ready", 355, 660);
+
   }
 
 }
+
+//--------------------------------------------------------------- Update stuff
 
 function newGame(numDiscs) {
   moves = 0;
@@ -201,11 +234,14 @@ function updateDiscs() {
   } 
 }
 
+//---------------------------------------------- mouseClick stuff
+
 function mouseClicked() {
   if (!started) { //rect(325, 315, 150, 50);
-    if (mouseX > 325 && mouseX < 475 && mouseY > 315 && mouseY < 365) {
-      newGame(nDiscs);
+    if (mouseX > 325 && mouseX < 475 && mouseY > 625 && mouseY < 675) {
       started = true;
+      time = millis();
+      newGame(nDiscs);
     }
   } else {
     if (mouseX > 50 && mouseX < 250) {
@@ -241,6 +277,8 @@ function mouseClicked() {
 
 }
 
+//--------------------------------------------------- Endgame stuff
+
 function checkWin() {
   let win = true;
   for (let i = 0; i < nDiscs; i++) {
@@ -257,7 +295,7 @@ function checkWin() {
   }
 }
 
-function solve(n, a, b, c) {
+function solve(n, a, b, c) { //for my own enjoyment, goes much too quickly to use as tutorial
   if (n == 1) {
     check = a;
     move = b;
@@ -269,8 +307,10 @@ function solve(n, a, b, c) {
   }
 }
 
+//---------------------------------------------------------- Data stuff
+
 function dataOutput() {
-   data = data + "Discs: " + nDiscs + ", Moves: " + moves + ", Time (Sec): " + time/1000 + ", Tries: " + tries + "\n"; //still need time in seconds
+   data = data + "Discs: " + nDiscs + ", Moves: " + moves + ", Time (Sec): " + time/1000 + ", Tries: " + tries + "\n"; 
    print(data);
 }
 
